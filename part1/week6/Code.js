@@ -1,14 +1,17 @@
 import Parser from "./Parser.js";
+import Symbol from "./Symbols.js";
 
 const Code = {
 
     /** @param {string} token */
-    convertInstruction(token) {
+    convertInstruction(token, index) {
         let machineCode;
-        if (Parser.isAInstruction(token)) {
-            machineCode = this.convertAInstruction(Parser.getAInstruction(token))
+        if (Parser.isSymbol(token)) {
+            machineCode = this.convertSymbol(Parser.getAInstruction(token));
+        } else if (Parser.isAInstruction(token)) {
+            machineCode = this.convertAInstruction(Parser.getAInstruction(token));
         } else if (Parser.isCInstruction(token)) {
-            machineCode = this.convertCInstruction(token)
+            machineCode = this.convertCInstruction(token);
         }
         return machineCode;
     },
@@ -16,6 +19,14 @@ const Code = {
     convertAInstruction(token) {
         const number = Number(token).toString(2);
         return '0'.repeat(16 - number.length) + number;
+    },
+
+    convertSymbol(token) {
+        if (!Symbol.get(token)) {
+            Symbol.set(token);
+        }
+        const number = Symbol.get(token);
+        return this.convertAInstruction(String(number));
     },
 
     convertCInstruction(token) {

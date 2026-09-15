@@ -24,6 +24,11 @@ const Parser = {
     },
 
     /** @param {string} token */
+    isSymbol(token) {
+        return this.isAInstruction(token) && isNaN(token);
+    },
+
+    /** @param {string} token */
     isCInstruction(token) {
         return token.includes('=') || token.includes(';');
     },
