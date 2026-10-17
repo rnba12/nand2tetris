@@ -3,6 +3,7 @@ import Compare from "./commands/Compare.js";
 import Logic from "./commands/Logic.js";
 import Pop from "./commands/Pop.js";
 import Push from "./commands/Push.js";
+import Loop from "./commands/Loop.js";
 
 const CodeWriter = {
 
@@ -47,6 +48,10 @@ const CodeWriter = {
             case 'not':
             case 'or':
                 return Logic.execute(command);
+            case 'label':
+            case 'goto':
+            case 'if-goto':
+                return Loop.execute(command, args[0]);
             default:
                 break;
         }

@@ -14,6 +14,7 @@ const Parser = {
         const rawLines = file.split('\r\n');
         const parsedLines = [];
         rawLines.forEach(line => {
+            line = line.replace(/(^\s+|\s+$)/g, '');
             line = line.split('//')[0];
             if (line.length) {
                 const tokens = line.split(' ');
